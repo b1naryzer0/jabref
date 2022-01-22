@@ -153,6 +153,12 @@ public class JabRefMain extends Application {
         Path currentIndexPath = BibDatabaseContext.getFulltextIndexBasePath();
         Path appData = currentIndexPath.getParent();
 
+        try {
+            Files.createDirectories(appData);
+        } catch (IOException e) {
+            LOGGER.error("Could not create {}", appData + e.getMessage());
+        }
+
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(appData)) {
             for (Path path : stream) {
                 if (Files.isDirectory(path) && !path.equals(currentIndexPath)) {
